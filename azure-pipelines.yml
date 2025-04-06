@@ -24,7 +24,7 @@ stages:
       displayName: 'Restore Dependencies'
       inputs:
         command: 'restore'
-        projects: '**/*.sln' # or specify exact .csproj path
+        projects: '**/*.sln'
 
     - task: DotNetCoreCLI@2
       displayName: 'Build Project'
@@ -52,9 +52,12 @@ stages:
   jobs:
   - job: Deploy
     steps:
+    - download: current
+      artifact: drop
+
     - task: AzureWebApp@1
       displayName: 'Deploy to Azure App Service'
       inputs:
-        azureSubscription: 'MyAzureServiceConnection' # Make sure this matches your actual connection name
-        appName: 'MyDemoAppService'                     # Use your actual Azure Web App name
-        package: '$(Pipeline.Workspace)/drop/**/*.zip'
+        azureSubscription: 'MyAzureServiceConnection'  # Update this to your actual Azure DevOps service connection name
+        appName: 'MyDemoAppService'                    # Update this to your actual Azure App Service name
+        package: '$(Pipeline.Workspace)/drop'
