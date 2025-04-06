@@ -56,5 +56,5 @@ stages:
       displayName: 'Deploy to Azure App Service'
       inputs:
         azureSubscription: 'MyAzureServiceConnection' # Make sure this matches your actual connection name
-        appName: 'my-webapp-name'                     # Use your actual Azure Web App name
+        appName: 'MyDemoAppService'                     # Use your actual Azure Web App name
         package: '$(Pipeline.Workspace)/drop/**/*.zip'
