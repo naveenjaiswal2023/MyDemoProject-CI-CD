@@ -24,20 +24,20 @@ stages:
       displayName: 'Restore Dependencies'
       inputs:
         command: 'restore'
-        projects: '**/*.csproj'
+        projects: '**/*.sln' # or specify exact .csproj path
 
     - task: DotNetCoreCLI@2
       displayName: 'Build Project'
       inputs:
         command: 'build'
-        projects: '**/*.csproj'
+        projects: '**/*.sln'
         arguments: '--configuration $(buildConfiguration)'
 
     - task: DotNetCoreCLI@2
       displayName: 'Publish Project'
       inputs:
         command: 'publish'
-        projects: '**/*.csproj'
+        projects: '**/*.sln'
         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 
     - task: PublishBuildArtifacts@1
@@ -55,6 +55,6 @@ stages:
     - task: AzureWebApp@1
       displayName: 'Deploy to Azure App Service'
       inputs:
-        azureSubscription: 'MyAzureServiceConnection'
-        appName: 'my-webapp-name'
-        package: '$(Pipeline.Workspace)/drop'
+        azureSubscription: 'MyAzureServiceConnection' # Make sure this matches your actual connection name
+        appName: 'my-webapp-name'                     # Use your actual Azure Web App name
+        package: '$(Pipeline.Workspace)/drop/**/*.zip'
